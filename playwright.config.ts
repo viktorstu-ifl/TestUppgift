@@ -33,6 +33,7 @@ export default defineConfig({
         launchOptions: {
           slowMo: 10000,
         },
+        screenshot: 'only-on-failure'
       },
     },
     {
@@ -42,6 +43,7 @@ export default defineConfig({
         launchOptions: {
           slowMo: 10000,
         },
+        screenshot: 'only-on-failure'
       },
     },
     {
@@ -51,6 +53,7 @@ export default defineConfig({
         launchOptions: {
           slowMo: 10000,
         },
+        screenshot: 'only-on-failure'
       },
     },
 
