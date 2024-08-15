@@ -4,7 +4,7 @@ test('1. Lund Evening < 17', async ({ page }) => {
 
 
   // Navigate to weather.com
-  await page.goto('https://weather.com/');
+  await page.goto('https://weather.com/', { waitUntil: 'domcontentloaded'});
 
   await page.waitForTimeout(3000);
 
