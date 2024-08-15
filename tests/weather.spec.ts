@@ -2,13 +2,16 @@ import { test, expect } from '@playwright/test';
 
 test('1. Lund Evening < 17', async ({ page }) => {
 
-  // Navigate to weather.com
-  await page.goto('https://weather.com/?Goto=Redirected');
 
-  /* Handle the consent and click 'Reject all'
+  // Navigate to weather.com
+  await page.goto('https://weather.com/');
+
+  
+
+  // Handle the consent and click 'Reject all'
   const consentFrame = page.frameLocator('iframe[title="SP Consent Message"]');
   await consentFrame.getByLabel('Reject all').click();
-*/
+
   // Wait for reload, this way is deprecated but works
   await page.waitForNavigation({ waitUntil: 'load', timeout: 10000 });
   
