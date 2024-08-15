@@ -1,18 +1,23 @@
 import { test, expect } from '@playwright/test';
 
-test('1. Lund Evening < 17', async ({ page }) => {
+test.beforeEach(async ({ page }) => {
 
-
-  // Navigate to weather.com
-  await page.goto('https://weather.com/', { waitUntil: 'domcontentloaded'});
+  //open weather.com 
+  await page.goto('https://weather.com');
 
   //Handle the consent and click 'Reject all'
   const consentFrame = page.frameLocator('iframe[title="SP Consent Message"]');
   if (page.frameLocator('iframe[title="SP Consent Message"]') !== null)
     await consentFrame.getByLabel('Reject all').click();
 
-  // Wait for reload
-  //await page.waitForNavigation({ waitUntil: 'load', timeout: 10000 });
+  // Wait for reload, this is deprecated but works
+  //await page.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 10000 });
+  await page.waitForURL('**')
+  await page.waitForLoadState('load')
+
+});
+
+test('1. Lund Evening < 17', async ({ page }) => {
 
   // Fill in 'Lund' into the search box
   await page.getByTestId('searchModalInputBox').fill('Lund');
@@ -20,6 +25,10 @@ test('1. Lund Evening < 17', async ({ page }) => {
   // Select Lund from the dropdown
   await page.getByRole('option', { name: 'Lund, Skåne, Sweden' }).waitFor({ state: 'visible', timeout: 5000 })
   await page.getByRole('option', { name: 'Lund, Skåne, Sweden' }).click();
+
+  // Wait for page load
+  await page.waitForURL('**')
+  await page.waitForLoadState('load')
 
   // Click on the degree and language settings
   await page.getByTestId('languageSelectorSection').getByTestId('ctaButton').waitFor({ state: 'visible', timeout: 5000 })

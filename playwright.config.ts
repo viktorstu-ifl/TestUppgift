@@ -31,9 +31,8 @@ export default defineConfig({
       use: {
         ...devices['Desktop Chrome'],
         launchOptions: {
-          slowMo: 10000,
+          slowMo: 3000,
         },
-        screenshot: 'only-on-failure'
       },
     },
     {
@@ -41,9 +40,8 @@ export default defineConfig({
       use: {
         ...devices['Desktop Firefox'],
         launchOptions: {
-          slowMo: 10000,
+          slowMo: 3000,
         },
-        screenshot: 'only-on-failure'
       },
     },
     {
@@ -51,9 +49,8 @@ export default defineConfig({
       use: {
         ...devices['Desktop Safari'],
         launchOptions: {
-          slowMo: 10000,
+          slowMo: 3000,
         },
-        screenshot: 'only-on-failure'
       },
     },
 
