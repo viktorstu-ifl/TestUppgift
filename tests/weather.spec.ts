@@ -6,9 +6,6 @@ test('1. Lund Evening < 17', async ({ page }) => {
   // Navigate to weather.com
   await page.goto('https://weather.com/', { waitUntil: 'domcontentloaded'});
 
-  // Added a timeout for it to work in CI
-  //await page.waitForTimeout(3000);
-
   /* Not needed in CI 
   
   //Handle the consent and click 'Reject all'
@@ -27,10 +24,8 @@ test('1. Lund Evening < 17', async ({ page }) => {
   await page.getByRole('option', { name: 'Lund, Skåne, Sweden' }).waitFor({ state: 'visible', timeout: 5000 })
   await page.getByRole('option', { name: 'Lund, Skåne, Sweden' }).click();
 
-  // Wait a few seconds to let the new page load, a workaraound for CI like before
-  //await page.waitForTimeout(3000);
-
   // Click on the degree and language settings
+  await page.getByTestId('languageSelectorSection').getByTestId('ctaButton').waitFor({ state: 'visible', timeout: 5000 })
   await page.getByTestId('languageSelectorSection').getByTestId('ctaButton').click();
 
   // Click on celsius
