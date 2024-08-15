@@ -27,11 +27,13 @@ test('1. Lund Evening < 17', async ({ page }) => {
   await page.getByRole('option', { name: 'Lund, Skåne, Sweden' }).click();
 
   // Wait a few seconds to let the new page load, as the page is never idle this is the easiest solution
-  await page.waitForTimeout(3000);
+  await page.waitForTimeout(10000);
 
   // Click on the degree and language settings
   await page.getByTestId('languageSelectorSection').getByTestId('ctaButton').click();
 
+  await page.waitForTimeout(1000);
+  
   // Click on celsius
   await page.getByTestId('degreesCbutton').click();
 
