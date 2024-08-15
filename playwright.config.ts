@@ -31,7 +31,7 @@ export default defineConfig({
       use: {
         ...devices['Desktop Chrome'],
         launchOptions: {
-          slowMo: 1000,
+          slowMo: 5000,
         },
       },
     },
@@ -40,7 +40,7 @@ export default defineConfig({
       use: {
         ...devices['Desktop Firefox'],
         launchOptions: {
-          slowMo: 1000,
+          slowMo: 5000,
         },
       },
     },
@@ -49,7 +49,7 @@ export default defineConfig({
       use: {
         ...devices['Desktop Safari'],
         launchOptions: {
-          slowMo: 1000,
+          slowMo: 5000,
         },
       },
     },

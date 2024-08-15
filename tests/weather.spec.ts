@@ -6,7 +6,8 @@ test('1. Lund Evening < 17', async ({ page }) => {
   // Navigate to weather.com
   await page.goto('https://weather.com/', { waitUntil: 'domcontentloaded'});
 
-  await page.waitForTimeout(3000);
+  // Added a timeout for it to work in CI
+  //await page.waitForTimeout(3000);
 
   /* Not needed in CI 
   
@@ -14,7 +15,7 @@ test('1. Lund Evening < 17', async ({ page }) => {
   const consentFrame = page.frameLocator('iframe[title="SP Consent Message"]');
   await consentFrame.getByLabel('Reject all').click();
   
-  // Wait for reload, this way is deprecated but works
+  // Wait for reload
   await page.waitForNavigation({ waitUntil: 'load', timeout: 10000 });
   
   */
@@ -26,8 +27,8 @@ test('1. Lund Evening < 17', async ({ page }) => {
   await page.getByRole('option', { name: 'Lund, Skåne, Sweden' }).waitFor({ state: 'visible', timeout: 5000 })
   await page.getByRole('option', { name: 'Lund, Skåne, Sweden' }).click();
 
-  // Wait a few seconds to let the new page load, as the page is never idle this is the easiest solution
-  await page.waitForTimeout(3000);
+  // Wait a few seconds to let the new page load, a workaraound for CI like before
+  //await page.waitForTimeout(3000);
 
   // Click on the degree and language settings
   await page.getByTestId('languageSelectorSection').getByTestId('ctaButton').click();
