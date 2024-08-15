@@ -9,17 +9,16 @@ test.beforeEach(async ({ page }) => {
   const consentFrame = await page.$('iframe[title="SP Consent Message"]');
   if (consentFrame) {
     const frame = await consentFrame.contentFrame();
-    
-    // Directly click the "Reject all" button within the frame
     await frame?.click('text="Reject all"');
-    console.log('"Reject all" button clicked');
+    await page.waitForURL('**')
+    await page.waitForLoadState('load')
   } 
 
-  // Wait for reload, this is deprecated but works
-  //await page.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 10000 });
-  await page.waitForURL('**')
-  await page.waitForLoadState('load')
+});
 
+test.afterEach(async ({ page, context }) => {
+  await page.close();
+  await context.close();
 });
 
 test('1. Lund Evening < 17', async ({ page }) => {
@@ -40,6 +39,7 @@ test('1. Lund Evening < 17', async ({ page }) => {
   await page.getByTestId('languageSelectorSection').getByTestId('ctaButton').click();
 
   // Click on celsius
+  await page.getByTestId('degreesCbutton').waitFor({ state: 'visible', timeout: 5000 })
   await page.getByTestId('degreesCbutton').click();
 
   // Find and asses degrees for Lund evening
@@ -55,8 +55,8 @@ test('1. Lund Evening < 17', async ({ page }) => {
 
 test('2. Amsterdam Humidity <= 80%', async ({ page }) => {
 
-  //Skip clicking all buttons to navigate to correct page because of time limit
-  await page.goto('https://weather.com/weather/today/l/968d2f1a5509a2f71fca25929b7d83139ac5134f61611a9c6637c90354cd6da8', { waitUntil: 'domcontentloaded'});
+  //Skip navigation to correct page because of time limit
+  await page.goto('https://weather.com/weather/today/l/968d2f1a5509a2f71fca25929b7d83139ac5134f61611a9c6637c90354cd6da8');
 
   // Find and asses humidity for Amsterdam
   const locator = page.getByTestId('PercentageValue');
@@ -71,8 +71,8 @@ test('2. Amsterdam Humidity <= 80%', async ({ page }) => {
 
 test('3. Lund Rain next hour', async ({ page }) => {
   
-  //Skip clicking all buttons to navigate to correct page because of time limit
-  await page.goto('https://weather.com/weather/hourbyhour/l/6f605c570ceefbbfca300b7b97efe1891d8b83508b364ba5bbd65d53df279533?unit=m', { waitUntil: 'domcontentloaded'});
+  //Skip navigation to correct page because of time limit
+  await page.goto('https://weather.com/weather/hourbyhour/l/6f605c570ceefbbfca300b7b97efe1891d8b83508b364ba5bbd65d53df279533?unit=m');
 
   // Find and asses rain in Lund in the coming hour
   const locator = page.locator('#detailIndex0').getByTestId('AccumulationValue');
