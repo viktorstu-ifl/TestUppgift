@@ -5,10 +5,15 @@ test.beforeEach(async ({ page }) => {
   //open weather.com 
   await page.goto('https://weather.com');
 
-  //Handle the consent and click 'Reject all'
-  const consentFrame = page.frameLocator('iframe[title="SP Consent Message"]');
-  if (page.frameLocator('iframe[title="SP Consent Message"]') !== null)
-    await consentFrame.getByLabel('Reject all').click();
+  //Handle the potential consent form
+  const consentFrame = await page.$('iframe[title="SP Consent Message"]');
+  if (consentFrame) {
+    const frame = await consentFrame.contentFrame();
+    
+    // Directly click the "Reject all" button within the frame
+    await frame?.click('text="Reject all"');
+    console.log('"Reject all" button clicked');
+  } 
 
   // Wait for reload, this is deprecated but works
   //await page.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 10000 });
@@ -49,8 +54,11 @@ test('1. Lund Evening < 17', async ({ page }) => {
 });
 
 test('2. Amsterdam Humidity <= 80%', async ({ page }) => {
+
+  //Skip clicking all buttons to navigate to correct page because of time limit
   await page.goto('https://weather.com/weather/today/l/968d2f1a5509a2f71fca25929b7d83139ac5134f61611a9c6637c90354cd6da8', { waitUntil: 'domcontentloaded'});
 
+  // Find and asses humidity for Amsterdam
   const locator = page.getByTestId('PercentageValue');
   const textContent = await locator.textContent();
 
@@ -62,8 +70,11 @@ test('2. Amsterdam Humidity <= 80%', async ({ page }) => {
 });
 
 test('3. Lund Rain next hour', async ({ page }) => {
+  
+  //Skip clicking all buttons to navigate to correct page because of time limit
   await page.goto('https://weather.com/weather/hourbyhour/l/6f605c570ceefbbfca300b7b97efe1891d8b83508b364ba5bbd65d53df279533?unit=m', { waitUntil: 'domcontentloaded'});
 
+  // Find and asses rain in Lund in the coming hour
   const locator = page.locator('#detailIndex0').getByTestId('AccumulationValue');
   const textContent = await locator.textContent();
 
